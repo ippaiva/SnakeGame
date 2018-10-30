@@ -13,6 +13,13 @@ GROUND.src = 'img/GROUND.png';
 const APPLEIMG = new Image();
 APPLEIMG.src = 'img/apple.png';
 
+// create the Random apple
+
+let apple = {
+  x: Math.floor(Math.random() * 17 + 1) * BOX,
+  y: Math.floor(Math.random() * 15 + 3) * BOX
+};
+
 // snake
 
 const snake = [];
@@ -21,22 +28,46 @@ snake[0] = {
   y: 10 * BOX
 };
 
-// create the Random apple
-
-let apple = {
-  x: Math.floor(Math.random() * 17 + 1) * BOX,
-  y: Math.floor(Math.random() * 15 + 3) * BOX
-};
-
-// score of the game
-
-let score = 0;
-
-// directions
+// directions of the snake
 
 let dir;
 
 document.addEventListener('keydown', direction);
+
+// create portals
+// const portal1 = [];
+// portal1[0] = {
+//   x: 1 * (BOX),
+//   y: 3 * (BOX)
+// };
+
+// const portal2 = [];
+// portal2[0] = {
+//   x: 17 * BOX,
+//   y: 18 * BOX - 96
+// };
+
+// score of the game
+let score = 0;
+
+let GameSection = 1;
+
+// keep the score
+const PLAYER = {
+  playerA: 0,
+  playerB: 0
+};
+
+function takeScore() {
+  if (GameSection === 1) {
+    PLAYER.playerA = score;
+    GameSection += 1;
+    console.log('blablabla');
+  } else {
+    PLAYER.playerB = score;
+    GameSection -= 1;
+  }
+}console.log(score);
 
 // function to get the directions of the snake
 
@@ -53,7 +84,7 @@ function direction(event) {
   }
 }
 
-// cheack collision function
+// check collision function
 function collision(head, array) {
   for (let i = 0; i < array.length; i += 1) {
     if (head.x === array[i].x && head.y === array[i].y) {
@@ -63,18 +94,26 @@ function collision(head, array) {
   return false;
 }
 
-
 // draw all in to the canvas
 function draw() {
   CTX.drawImage(GROUND, 0, 0);
 
   for (let i = 0; i < snake.length; i += 1) {
-    CTX.fillStyle = (i === 0) ? 'green' : 'white';
+    CTX.fillStyle = i === 0 ? 'green' : 'white';
     CTX.fillRect(snake[i].x, snake[i].y, BOX, BOX);
 
     CTX.strokeStyle = 'red';
     CTX.strokeRect(snake[i].x, snake[i].y, BOX, BOX);
   }
+
+  // portals
+  // CTX.fillStyle = 'black';
+  // CTX.fillRect(portal1[0].x, portal1[0].y, 32, 96);
+
+  // CTX.fillStyle = 'black';
+  // CTX.fillRect(portal2[0].x, portal2[0].y, 32, 96);
+
+  // apple
   CTX.drawImage(APPLEIMG, apple.x, apple.y);
 
   // old head position
@@ -82,10 +121,18 @@ function draw() {
   let snakeY = snake[0].y;
 
   // which direction
-  if (dir === 'LEFT') snakeX -= BOX;
-  else if (dir === 'UP') snakeY -= BOX;
-  else if (dir === 'RIGHT') snakeX += BOX;
-  else if (dir === 'DOWN') snakeY += BOX;
+  if (dir === 'LEFT') {
+    snakeX -= BOX;
+  }
+  if (dir === 'UP') {
+    snakeY -= BOX;
+  }
+  if (dir === 'RIGHT') {
+    snakeX += BOX;
+  }
+  if (dir === 'DOWN') {
+    snakeY += BOX;
+  }
 
   // if the snake eats the food
   if (snakeX === apple.x && snakeY === apple.y) {
@@ -107,21 +154,32 @@ function draw() {
     y: snakeY
   };
 
-  // game over
+  // draw the portal
 
-  if (snakeX < BOX || snakeX > 17 * BOX || snakeY < 3 * BOX || snakeY > 17 * BOX || collision(NEWHEAD, snake)) {
+  // function to move the snake across the limits of the board
+  // function MoveAcross() {
+  //   if (snakeX === portal1) {
+
+  //   }
+  // }
+
+  // game over
+  if (
+    snakeX < BOX
+    || snakeX > 17 * BOX
+    || snakeY < 3 * BOX
+    || snakeY > 17 * BOX
+    || collision(NEWHEAD, snake)
+  ) {
     clearInterval(game);
+    takeScore(game);
   }
+  // if ((snakeX >= portal1.x && snakeX <= portal1.x + 32) && (snakeY >= portal1.y && snakeY <= portal1.y + 96)) {}
 
   snake.unshift(NEWHEAD);
 
   CTX.fillStyle = 'white';
-  CTX.font = '45px Changa one';
+  CTX.font = '45px Open sans';
   CTX.fillText(score, 2 * BOX, 1.6 * BOX);
 }
-let game = setInterval(draw, 100);
-
-
-// function to move the snake across the limits of the board
-// function MoveAcross() {
-// }
+let game = setInterval(draw, 150);
