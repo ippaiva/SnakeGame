@@ -48,8 +48,22 @@ function takeScore() {
   } else {
     PLAYER.playerB = score;
     gameSession -= 1;
+    whoWin();
   }
   console.log(PLAYER);
+}
+
+function whoWin() {
+  if (PLAYER.playerA > PLAYER.playerB) {
+    alert('Player 1 Win`s!');
+    return PLAYER.playerA;
+  }
+  if (PLAYER.playerB > PLAYER.playerA) {
+    alert('Player 2 Win`s!');
+    return PLAYER.playerB;
+  } if (PLAYER.playerA !== 0 && PLAYER.playerB !== 0 && PLAYER.playerA === PLAYER.playerB) {
+    alert('Draw, play again!');
+  }
 }
 
 // function to get the directions of the SNAKE
@@ -83,7 +97,7 @@ function reset() {
     y: 10 * BOX
   };
   draw();
-  // takeScore();
+  takeScore();
 }
 
 // draw all in to the canvas
@@ -91,7 +105,11 @@ function draw() {
   CTX.drawImage(GROUND, 0, 0);
 
   for (let i = 0; i < SNAKE.length; i += 1) {
-    CTX.fillStyle = i === 0 ? 'green' : 'white';
+    if (gameSession === 1) {
+      CTX.fillStyle = i === 0 ? 'green' : 'white';
+    } else {
+      CTX.fillStyle = i === 0 ? 'blue' : 'white';
+    }
     CTX.fillRect(SNAKE[i].x, SNAKE[i].y, BOX, BOX);
   }
 
@@ -138,14 +156,13 @@ function draw() {
   // game over
   if (
     snakeX < BOX
-      || snakeX > 17 * BOX
-      || snakeY < 3 * BOX
-      || snakeY > 17 * BOX
-      || collision(NEWHEAD, SNAKE)
+    || snakeX > 17 * BOX
+    || snakeY < 3 * BOX
+    || snakeY > 17 * BOX
+    || collision(NEWHEAD, SNAKE)
   ) {
     clearInterval(game);
     setTimeout(reset, 1000);
-    takeScore();
   }
 
   SNAKE.unshift(NEWHEAD);
@@ -159,4 +176,3 @@ function startGame() {
   score = 0;
   game = setInterval(draw, 150);
 }
-// };
