@@ -59,7 +59,6 @@ function takeScore() {
   if (gameSession === 1) {
     PLAYER.playerA = score;
     gameSession += 1;
-    console.log(score);
   } else {
     PLAYER.playerB = score;
     gameSession -= 1;
