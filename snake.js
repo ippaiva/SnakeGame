@@ -12,6 +12,21 @@ GROUND.src = 'img/GROUND.png';
 const APPLEIMG = new Image();
 APPLEIMG.src = 'img/apple.png';
 
+// load audio files
+const dead = new Audio();
+const eat = new Audio();
+const up = new Audio();
+const right = new Audio();
+const left = new Audio();
+const down = new Audio();
+
+dead.src = 'audio/dead.mp3';
+eat.src = 'audio/eat.mp3';
+up.src = 'audio/up.mp3';
+right.src = 'audio/right.mp3';
+left.src = 'audio/left.mp3';
+down.src = 'audio/down.mp3';
+
 // create the Random apple
 let apple = {
   x: Math.floor(Math.random() * 17 + 1) * BOX,
@@ -70,12 +85,16 @@ function whoWin() {
 function direction(event) {
   const btn = event.keyCode;
   if (btn === 37 && dir !== 'RIGHT') {
+    left.play();
     dir = 'LEFT';
   } else if (btn === 38 && dir !== 'DOWN') {
+    up.play();
     dir = 'UP';
   } else if (btn === 39 && dir !== 'LEFT') {
+    right.play();
     dir = 'RIGHT';
   } else if (btn === 40 && dir !== 'UP') {
+    down.play();
     dir = 'DOWN';
   }
 }
@@ -137,6 +156,7 @@ function draw() {
   // if the SNAKE eats the food
   if (snakeX === apple.x && snakeY === apple.y) {
     score += 1;
+    eat.play();
     apple = {
       x: Math.floor(Math.random() * 17 + 1) * BOX,
       y: Math.floor(Math.random() * 15 + 3) * BOX
@@ -163,6 +183,7 @@ function draw() {
   ) {
     clearInterval(game);
     setTimeout(reset, 1000);
+    dead.play();
   }
 
   SNAKE.unshift(NEWHEAD);
