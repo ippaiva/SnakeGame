@@ -19,4 +19,4 @@ Just use the arrow keys on your keyboard to move. Over time, your creature will 
 + **Arrow Right**: Move Right
 + **Arrow Left**: Move Left
 
-**Play**: []()
+**Play**: [Snake Game!](https://ippaiva.github.io/SnakeGame/)
