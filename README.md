@@ -2,7 +2,7 @@
 
 **First Ironhack Game Project**
 
-_This is a simple classic 8-bit snake game created using HTML5 Canvas and JavaScript._
+_This is a simple classic snake game created using HTML5 Canvas and JavaScript._
 
 ## Context
 

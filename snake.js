@@ -1,3 +1,4 @@
+/* eslint-disable no-alert */
 // window.onload = function () {
 const CVS = document.getElementById('canvas');
 const CTX = CVS.getContext('2d');
@@ -114,6 +115,7 @@ function reset() {
     x: 9 * BOX,
     y: 10 * BOX
   };
+
   draw();
   takeScore();
 }
